@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Statement — Not A Standard</title>
+    <meta name="description" content="Accessibility statement for the Not A Standard website.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAFAF7;
+            --bg-warm: #F4F1EC;
+            --bg-dark: #1A1A18;
+            --bg-card: #FFFFFF;
+            --text: #1A1A18;
+            --text-secondary: #6B6963;
+            --text-muted: #A09E97;
+            --accent: #C1432E;
+            --accent-hover: #A83826;
+            --border: #E8E5DF;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: var(--sans); font-weight: 400; line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::selection { background: var(--accent); color: white; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0 3rem; display: flex; justify-content: space-between; align-items: center;
+            height: 64px;
+            background: rgba(250, 250, 247, 0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            font-family: var(--mono); font-weight: 500; font-size: 0.7rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--text); text-decoration: none;
+        }
+        .nav-back {
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 400;
+            color: var(--text-secondary); text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .nav-back:hover { color: var(--text); }
+        .nav-back::before { content: '← '; }
+
+        .legal-page {
+            max-width: 720px; margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        .legal-label {
+            font-family: var(--mono); font-size: 0.65rem; font-weight: 400;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .legal-label::before {
+            content: ''; width: 32px; height: 1px; background: var(--accent); opacity: 0.6;
+        }
+        .legal-page h1 {
+            font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 400; line-height: 1.15; margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .legal-updated {
+            font-size: 0.85rem; color: var(--text-muted); margin-bottom: 3rem;
+            padding-bottom: 2rem; border-bottom: 1px solid var(--border);
+        }
+        .legal-page h2 {
+            font-family: var(--serif); font-size: 1.4rem; font-weight: 400;
+            margin: 2.5rem 0 1rem; color: var(--text);
+        }
+        .legal-page p {
+            font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+        .legal-page a { color: var(--accent); text-decoration: none; }
+        .legal-page a:hover { text-decoration: underline; }
+        .legal-page ul {
+            margin: 0.5rem 0 1.2rem 1.5rem; color: var(--text-secondary);
+            font-size: 0.95rem; line-height: 1.8;
+        }
+        .legal-page li { margin-bottom: 0.3rem; }
+
+        footer {
+            padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid var(--border); margin-top: 4rem;
+        }
+        .footer-left { font-size: 0.75rem; color: var(--text-muted); }
+        .footer-right { display: flex; gap: 2rem; }
+        .footer-right a {
+            font-size: 0.75rem; color: var(--text-muted);
+            text-decoration: none; transition: color 0.3s ease;
+        }
+        .footer-right a:hover { color: var(--text); }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 1.5rem; }
+            .legal-page { padding: 6rem 1.5rem 3rem; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Not A Standard</a>
+    <a href="/" class="nav-back">Back to home</a>
+</nav>
+
+<main class="legal-page">
+    <div class="legal-label">Accessibility</div>
+    <h1>Accessibility Statement</h1>
+    <p class="legal-updated">Last updated: 22 February 2026</p>
+
+    <p>Not A Standard is committed to making our website accessible to as many people as possible. Our work focuses on understanding and preventing harm — accessibility is part of that commitment.</p>
+
+    <h2>What we've done</h2>
+
+    <p>This website has been built with accessibility in mind. We have implemented the following measures:</p>
+
+    <ul>
+        <li>Semantic HTML structure with appropriate heading hierarchy</li>
+        <li>Sufficient colour contrast ratios across all text and backgrounds</li>
+        <li>Responsive design that works across screen sizes and devices</li>
+        <li>Keyboard-navigable interface elements</li>
+        <li>Descriptive link text and meaningful page titles</li>
+        <li>No auto-playing media or content that flashes</li>
+        <li>Forms with associated labels and clear input descriptions</li>
+    </ul>
+
+    <h2>Standards</h2>
+
+    <p>We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. As a small team, we are working toward full conformance and welcome feedback on areas where we can improve.</p>
+
+    <h2>Known limitations</h2>
+
+    <p>We are aware that the dark-background TFA Matrix section uses a data-dense layout that may be challenging with some assistive technologies. We are working on alternative formats for this content.</p>
+
+    <h2>Content considerations</h2>
+
+    <p>Some of the subject matter on this site discusses domestic and family violence, coercive control, and interpersonal harm. This content is presented in a clinical, research-oriented context. If you find any content distressing, support is available through <a href="https://www.1800respect.org.au/" target="_blank" rel="noopener">1800RESPECT</a> (1800 737 732) or <a href="https://www.lifeline.org.au/" target="_blank" rel="noopener">Lifeline</a> (13 11 14).</p>
+
+    <h2>Feedback</h2>
+
+    <p>If you encounter accessibility barriers on this site, or have suggestions for improvement, we'd like to hear from you. Please contact us at <a href="mailto:hello@notastandard.org">hello@notastandard.org</a> with details of the issue and we will work to address it.</p>
+</main>
+
+<footer>
+    <div class="footer-left">&copy; 2026 Not A Standard Pty Ltd</div>
+    <div class="footer-right">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/accessibility.html">Accessibility</a>
+        <a href="mailto:hello@notastandard.org">hello@notastandard.org</a>
+    </div>
+</footer>
+
+</body>
+</html>
