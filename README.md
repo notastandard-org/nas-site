@@ -10,15 +10,6 @@ CNAME               — Custom domain configuration
 resources/          — PDFs, slide decks, downloadable assets
 ```
 
-## Updating content
-
-Edit `index.html` directly. Changes go live within ~60 seconds of pushing to `main`.
-
-To add a resource (PDF, slide deck):
-1. Drop the file in `resources/`
-2. Add a link in the Resources section of `index.html`
-3. Commit and push
-
 ## Forms
 
 Contact and subscribe forms handled by [Formspree](https://formspree.io). 
