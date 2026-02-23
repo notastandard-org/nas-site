@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Engine — Not A Standard</title>
+<meta name="description" content="Domain-agnostic intelligence infrastructure. Longitudinal pattern detection across contested knowledge domains through independent analytical lenses and constitutional governance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #FAFAF7; --bg-warm: #F4F1EC; --bg-dark: #1A1A18; --bg-dark-warm: #222220; --bg-card: #FFFFFF; --text: #1A1A18; --text-secondary: #6B6963; --text-muted: #A09E97; --text-on-dark: #E8E5DF; --accent: #C1432E; --accent-hover: #A83826; --accent-light: rgba(193, 67, 46, 0.08); --border: #E8E5DF; --border-light: #F0EDE8; --border-dark: rgba(255,255,255,0.08); --serif: 'Instrument Serif', Georgia, serif; --sans: 'Plus Jakarta Sans', -apple-system, sans-serif; --mono: 'IBM Plex Mono', monospace; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: white; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; height: 64px; background: rgba(250, 250, 247, 0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+nav.scrolled { border-bottom-color: var(--border); }
+.nav-logo { text-decoration: none; display: flex; align-items: center; }
+.nav-logo img { height: 28px; width: auto; display: block; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; position: relative; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--text); font-weight: 500; }
+.nav-links a.active::after { width: 100%; }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); margin: 5px 0; }
+.nav-dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border: 1px solid var(--border); min-width: 180px; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-4px); transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 0.5rem 0; }
+.nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown-menu a { display: block; padding: 0.55rem 1.2rem; font-size: 0.78rem; transition: all 0.2s ease; }
+.dropdown-menu a:hover { color: var(--accent); background: var(--accent-light); }
+.dropdown-menu a::after { display: none; }
+
+.container { max-width: 1200px; margin: 0 auto; }
+section { padding: 7rem 3rem; }
+.divider { height: 1px; background: var(--border); margin: 0 3rem; }
+.section-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.section-label::before { content: ''; width: 16px; height: 1px; background: var(--accent); opacity: 0.5; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+.section-text { max-width: 620px; margin-bottom: 2rem; }
+.section-text p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; line-height: 1.85; margin-bottom: 1rem; }
+.section-text p strong { color: var(--text); font-weight: 500; }
+
+.page-header { padding: 10rem 3rem 5rem; max-width: 1200px; margin: 0 auto; }
+.page-header-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards; }
+.page-header-label::before { content: ''; width: 32px; height: 1px; background: var(--accent); opacity: 0.6; }
+.page-header h1 { font-family: var(--serif); font-size: clamp(3.2rem, 6vw, 5rem); font-weight: 400; line-height: 1.08; max-width: 800px; margin-bottom: 2rem; letter-spacing: -0.02em; opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards; }
+.page-header h1 em { font-style: italic; color: var(--accent); }
+.page-header .lead { font-size: 1.1rem; font-weight: 300; color: var(--text-secondary); max-width: 560px; line-height: 1.85; opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards; }
+
+.pull-quote { font-family: var(--serif); font-size: 1.5rem; line-height: 1.5; color: var(--text); font-style: italic; padding-left: 1.5rem; border-left: 2px solid var(--accent); margin: 3rem 0; max-width: 700px; }
+
+.principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+.principle-card { background: var(--bg-card); padding: 2.5rem; border: 1px solid var(--border-light); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.principle-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--accent); transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.principle-card:hover { border-color: var(--border); box-shadow: 0 8px 40px rgba(0,0,0,0.04); }
+.principle-card:hover::before { height: 100%; }
+.principle-num { font-family: var(--mono); font-size: 0.58rem; color: var(--text-muted); letter-spacing: 0.12em; margin-bottom: 1.5rem; }
+.principle-card h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.3; }
+.principle-card p { color: var(--text-secondary); font-size: 0.88rem; font-weight: 300; line-height: 1.75; }
+
+/* ORBITAL ARCHITECTURE */
+.orbital-wrapper { position: relative; width: 100%; max-width: 520px; margin: 3.5rem auto 0; aspect-ratio: 1 / 1; }
+.orbital-ring { position: absolute; border: 1px solid var(--border); border-radius: 50%; }
+.orbital-ring.ring-1 { top: 8%; left: 8%; right: 8%; bottom: 8%; animation: rotate-slow 50s linear infinite; border-style: dashed; border-color: var(--border-light); }
+.orbital-ring.ring-2 { top: 22%; left: 22%; right: 22%; bottom: 22%; animation: rotate-slow 35s linear infinite reverse; }
+.orbital-ring.ring-3 { top: 36%; left: 36%; right: 36%; bottom: 36%; animation: rotate-slow 45s linear infinite; border-style: dashed; border-color: var(--border-light); }
+.orbital-centre { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 4px 24px rgba(193, 67, 46, 0.08); cursor: pointer; transition: all 0.3s ease; }
+.orbital-centre:hover { box-shadow: 0 8px 40px rgba(193, 67, 46, 0.15); transform: translate(-50%, -50%) scale(1.03); }
+.orbital-centre.active { box-shadow: 0 8px 40px rgba(193, 67, 46, 0.2); }
+.orbital-centre .hub-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+.orbital-centre .hub-title { font-family: var(--serif); font-size: 1rem; color: var(--text); margin-top: 0.15rem; }
+.orbital-node { position: absolute; z-index: 10; background: var(--bg-card); border: 1px solid var(--border-light); padding: 0.65rem 1rem; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+.orbital-node:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: scale(1.05); }
+.orbital-node.active { border-color: var(--accent); background: var(--accent-light); }
+.orbital-node .node-num { font-family: var(--mono); font-size: 0.5rem; color: var(--text-muted); letter-spacing: 0.1em; display: block; }
+.orbital-node .node-name { font-family: var(--sans); font-size: 0.78rem; font-weight: 500; color: var(--text); }
+.orbital-node.active .node-name { color: var(--accent); }
+.node-collect   { top: 2%;  left: 50%; transform: translateX(-50%); }
+.node-process   { top: 22%; right: 0%; }
+.node-analyze   { bottom: 22%; right: 0%; }
+.node-fuse      { bottom: 2%; left: 50%; transform: translateX(-50%); }
+.node-produce   { bottom: 22%; left: 0%; }
+.node-govern    { top: 22%; left: 0%; }
+.orbital-detail { max-width: 620px; margin: 2.5rem auto 0; background: var(--bg-card); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 2rem; display: none; animation: slideDown 0.25s ease; }
+.orbital-detail.visible { display: block; }
+.orbital-detail h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.8rem; }
+.orbital-detail p { font-size: 0.9rem; color: var(--text-secondary); font-weight: 300; line-height: 1.8; }
+.orbital-detail .detail-constraint { margin-top: 1rem; padding: 0.8rem 1rem; background: var(--bg-warm); border-left: 2px solid var(--accent); font-family: var(--mono); font-size: 0.72rem; color: var(--text-secondary); }
+.orbital-hint { text-align: center; margin-top: 1.5rem; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); animation: pulse-subtle 3s ease-in-out infinite; }
+@keyframes pulse-subtle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+.diff-card { background: var(--bg-card); padding: 2.5rem; border: 1px solid var(--border-light); transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; }
+.diff-card::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.diff-card:hover { border-color: var(--border); box-shadow: 0 8px 40px rgba(0,0,0,0.04); transform: translateY(-3px); }
+.diff-card:hover::after { width: 100%; }
+.diff-card h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1rem; }
+.diff-card p { color: var(--text-secondary); font-size: 0.88rem; font-weight: 300; line-height: 1.75; }
+
+.domain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.domain-card { background: var(--bg-card); padding: 2rem; border: 1px solid var(--border-light); transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; }
+.domain-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--accent); transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.domain-card:hover { border-color: var(--border); box-shadow: 0 8px 40px rgba(0,0,0,0.04); }
+.domain-card:hover::before { height: 100%; }
+.domain-status { display: inline-block; font-family: var(--mono); font-size: 0.55rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.7rem; margin-bottom: 1.2rem; }
+.status-live { background: rgba(46, 125, 50, 0.08); color: #2E7D32; }
+.status-future { background: rgba(30, 30, 30, 0.06); color: var(--text-secondary); }
+.domain-card h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.6rem; line-height: 1.3; }
+.domain-card p { color: var(--text-secondary); font-size: 0.85rem; font-weight: 300; line-height: 1.7; }
+
+.cta-section { padding: 6rem 3rem; text-align: center; }
+.cta-section .section-title { margin-bottom: 1rem; }
+.cta-section p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.85; }
+.cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; color: white; background: var(--text); padding: 0.9rem 2rem; text-decoration: none; transition: all 0.35s ease; }
+.btn-primary:hover { background: var(--accent); }
+.btn-outline { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 400; color: var(--text-secondary); border: 1px solid var(--border); padding: 0.85rem 1.8rem; text-decoration: none; transition: all 0.3s ease; background: transparent; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.safety { padding: 2.5rem 3rem; text-align: center; background: var(--bg-warm); border-top: 1px solid var(--border-light); }
+.safety p { font-size: 0.82rem; color: var(--text-muted); max-width: 550px; margin: 0 auto; line-height: 1.8; }
+.safety a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.safety a:hover { text-decoration: underline; }
+.footer-right { display: flex; gap: 2rem; padding: 2.5rem 3rem; border-top: 1px solid var(--border-light); justify-content: center; }
+.footer-right a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+.footer-right a:hover { color: var(--text); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+
+@media (max-width: 1024px) { .principle-grid, .diff-grid, .domain-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(250, 250, 247, 0.98); backdrop-filter: blur(20px); padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .nav-dropdown .dropdown-menu { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; border: none; backdrop-filter: none; padding: 0.3rem 0 0 1rem; min-width: 0; }
+    .dropdown-menu a { padding: 0.35rem 0; font-size: 0.75rem; }
+    section { padding: 5rem 1.5rem; }
+    .page-header { padding: 8rem 1.5rem 4rem; }
+    .divider { margin: 0 1.5rem; }
+    .principle-grid, .diff-grid, .domain-grid { grid-template-columns: 1fr; }
+    .orbital-wrapper { max-width: 340px; }
+    .orbital-node { padding: 0.5rem 0.7rem; }
+    .orbital-node .node-name { font-size: 0.68rem; }
+    .orbital-centre { width: 90px; height: 90px; }
+    .orbital-centre .hub-title { font-size: 0.85rem; }
+    .footer-right { flex-direction: column; gap: 1rem; text-align: center; }
+    .cta-group { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+    <a href="index.html" class="nav-logo"><img src="nas-logo.png" alt="Not A Standard" height="28"></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+        <li><a href="index.html">Company</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li class="nav-dropdown">
+            <a href="index.html#work" class="active">Our Work</a>
+            <div class="dropdown-menu">
+                <a href="engine.html">The Engine</a>
+                <a href="safe.html">SAFE Platform</a>
+                <a href="https://tfa.notastandard.org" target="_blank" rel="noopener">TFA Matrix</a>
+            </div>
+        </li>
+        <li><a href="index.html#resources">Resources</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <div class="page-header-label">Analytical Infrastructure</div>
+    <h1>Patterns persist. Surface behaviours <em>adapt.</em></h1>
+    <p class="lead">Domain-agnostic intelligence infrastructure for contested knowledge domains. Built to detect the structural changes that point-in-time assessment systematically misses.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE OBSERVATION -->
+<section>
+    <div class="container">
+        <div class="section-label">The observation</div>
+        <div class="section-title">Every domain has the same blind spot</div>
+        <div class="section-text reveal">
+            <p>Across every contested knowledge domain — from cybersecurity to interpersonal harm to geopolitical influence — existing tools are built around <strong>events</strong>. Something happens, you assess it, you respond.</p>
+            <p>But the most consequential patterns don't announce themselves as events. They develop gradually. The underlying structure stays consistent while the visible behaviour keeps changing — adapting just enough to look different each time.</p>
+            <p><strong>Current analytical tools are optimised for the wrong unit of analysis.</strong> They see snapshots. They miss the structural shift happening underneath.</p>
+        </div>
+        <p class="pull-quote reveal">"The same actor, operating across the same targets, using the same underlying strategy, will present completely differently to any individual assessment. That's not a bug in detection — it's a feature of how these behaviours work."</p>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CORE PRINCIPLES -->
+<section style="background:var(--bg-warm);">
+    <div class="container">
+        <div class="section-label">Core principles</div>
+        <div class="section-title">How the engine thinks</div>
+        <div class="section-text reveal">
+            <p>Four architectural principles govern every deployment. These aren't configuration options — they're structural properties of the methodology.</p>
+        </div>
+        <div class="principle-grid">
+            <div class="principle-card reveal"><div class="principle-num">01</div><h3>Independent Analytical Lenses</h3><p>Every data source is assessed through multiple independent perspectives simultaneously. The lenses don't communicate during processing. When independent analyses converge on compatible conclusions, the resulting signal carries substantially higher confidence — because convergence was detected, not manufactured.</p></div>
+            <div class="principle-card reveal reveal-delay-1"><div class="principle-num">02</div><h3>Longitudinal Detection</h3><p>The engine detects change across time, not anomalies at a point. It identifies the gradual structural shifts that per-event assessment systematically misses — the patterns that are invisible in any individual snapshot but unmistakable when you see the full picture.</p></div>
+            <div class="principle-card reveal"><div class="principle-num">03</div><h3>Constitutional Governance</h3><p>Every deployment is governed by constitutional constraints — hardcoded architectural invariants that cannot be overridden by users, administrators, or system updates. In domains where analytical outputs affect human safety, governance isn't optional. It's the feature.</p></div>
+            <div class="principle-card reveal reveal-delay-1"><div class="principle-num">04</div><h3>Structured Intelligence Production</h3><p>Standard intelligence methodology: collect, process, analyse, produce. Raw data enters. Structured, provenanced intelligence emerges. Every analytical step is logged, traceable, and auditable — because intelligence without a custody chain is just opinion.</p></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARCHITECTURE -->
+<section>
+    <div class="container">
+        <div class="section-label">How a deployment works</div>
+        <div class="section-title">Configure, collect, produce</div>
+        <div class="section-text reveal">
+            <p>The engine is configured for a specific domain by providing a <strong>domain vocabulary</strong>, a <strong>constitutional framework</strong>, and <strong>behavioural indicators</strong>. The analytical infrastructure remains constant.</p>
+        </div>
+
+        <div class="orbital-wrapper reveal">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            <div class="orbital-centre" data-node="config">
+                <span class="hub-label">Core</span>
+                <span class="hub-title">Domain Config</span>
+            </div>
+            <div class="orbital-node node-collect" data-node="collect"><span class="node-num">01</span><span class="node-name">Collect</span></div>
+            <div class="orbital-node node-process" data-node="process"><span class="node-num">02</span><span class="node-name">Process</span></div>
+            <div class="orbital-node node-analyze" data-node="analyze"><span class="node-num">03</span><span class="node-name">Analyse</span></div>
+            <div class="orbital-node node-fuse" data-node="fuse"><span class="node-num">04</span><span class="node-name">Fuse</span></div>
+            <div class="orbital-node node-produce" data-node="produce"><span class="node-num">05</span><span class="node-name">Produce</span></div>
+            <div class="orbital-node node-govern" data-node="govern"><span class="node-num">&#10022;</span><span class="node-name">Govern</span></div>
+        </div>
+        <div class="orbital-hint reveal">Select a stage to learn more</div>
+        <div id="orbital-detail" class="orbital-detail"></div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DIFFERENTIATORS -->
+<section style="background:var(--bg-warm);">
+    <div class="container">
+        <div class="section-label">What this is not</div>
+        <div class="section-title">Important distinctions</div>
+        <div class="diff-grid">
+            <div class="diff-card reveal"><h3>Not Prediction</h3><p>The engine identifies patterns and structural change. It does not predict what any individual will do. This is a constitutional constraint, not a limitation — prediction in human domains causes harm.</p></div>
+            <div class="diff-card reveal reveal-delay-1"><h3>Not Surveillance</h3><p>The engine processes analytical sources — research, case data, structured intelligence. It's not a monitoring tool. It analyses information that already exists; it doesn't generate collection against individuals.</p></div>
+            <div class="diff-card reveal reveal-delay-2"><h3>Not a Black Box</h3><p>Full analytical provenance. Every conclusion traces back through the fusion layer, through independent assessments, through signal validation, to the original source. Auditability is architectural, not aspirational.</p></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DOMAINS -->
+<section>
+    <div class="container">
+        <div class="section-label">Where this applies</div>
+        <div class="section-title">Any domain where patterns persist<br>and surface behaviours adapt</div>
+        <div class="section-text reveal">
+            <p>The engine is domain-agnostic by design. It works wherever behavioural patterns persist across time, surface indicators change, and structured analytical infrastructure is either absent or inadequate.</p>
+        </div>
+        <div class="domain-grid">
+            <div class="domain-card reveal"><span class="domain-status status-live">In Development</span><h3>Interpersonal Harm</h3><p>The first deployment. Coercive control, technology-facilitated abuse, and domestic violence — analysed through intelligence methodology. Behavioural taxonomy, indicator library, constitutional AI governance.</p></div>
+            <div class="domain-card reveal reveal-delay-1"><span class="domain-status status-future">Future Domain</span><h3>Insider Threat</h3><p>Behavioural change detection for insider threat programs. The same structural persistence that characterises coercive control — adaptive surface behaviour, consistent underlying pattern — defines insider threat progression.</p></div>
+            <div class="domain-card reveal reveal-delay-2"><span class="domain-status status-future">Future Domain</span><h3>Influence Operations</h3><p>Longitudinal detection of coordinated influence campaigns. Identifying structural signatures that persist across platform migration, narrative pivots, and tactical adaptation.</p></div>
+            <div class="domain-card reveal"><span class="domain-status status-future">Future Domain</span><h3>Radicalisation Pathways</h3><p>Pattern detection across radicalisation trajectories. Identifying the structural shift from engagement through commitment that point-in-time assessment misses.</p></div>
+            <div class="domain-card reveal reveal-delay-1"><span class="domain-status status-future">Future Domain</span><h3>Fraud &amp; Financial Crime</h3><p>Behavioural pattern analysis for complex fraud. Detecting adaptive indicators that characterise sophisticated financial crime campaigns across evolving regulatory environments.</p></div>
+            <div class="domain-card reveal reveal-delay-2"><span class="domain-status status-future">Future Domain</span><h3>Your Domain</h3><p>If your organisation works in a contested knowledge domain where patterns persist, behaviours adapt, and current tools rely on per-event assessment — we should talk.</p></div>
+        </div>
+    </div>
+</section>
+
+<div class="cta-section">
+    <div class="section-title">See the engine in action</div>
+    <p>SAFE is the first deployment — intelligence infrastructure for interpersonal harm, built on this methodology.</p>
+    <div class="cta-group">
+        <a href="safe.html" class="btn-primary">Explore SAFE &#8594;</a>
+        <a href="index.html#contact" class="btn-outline">Request a Briefing</a>
+    </div>
+</div>
+
+<!-- ======================== SAFETY ======================== -->
+<div class="safety">
+    <p>If you are in immediate danger, call <strong>000</strong>. For support: <a href="tel:1800737732">1800RESPECT</a> &middot; <a href="tel:131114">Lifeline 13 11 14</a>. Your safety matters &mdash; reach out for help.</p>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-right">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/accessibility.html">Accessibility</a>
+    <a href="mailto:hello@notastandard.org">hello@notastandard.org</a>
+    <a href="https://www.linkedin.com/company/not-a-standard-org/" target="_blank" rel="noopener">LinkedIn</a>
+</div>
+
+<script>
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+setTimeout(() => { document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible')); }, 1500);
+
+const nodeData = {
+    config: { title: 'Domain Configuration', text: 'Three inputs configure the entire pipeline: the structured vocabulary for the domain, the constitutional constraints that govern what the system can and cannot do, and the behavioural indicator library mapping known patterns.', constraint: 'The domain configuration defines the boundaries. The engine operates within them — it cannot extend beyond its constitutional mandate.' },
+    collect: { title: 'Collection', text: 'Research literature, case documentation, policy documents, and structured data sources are ingested with full provenance tracking. Every item maintains a complete custody chain from the moment it enters the pipeline.', constraint: 'Source provenance is immutable once recorded. No data enters without a complete audit trail.' },
+    process: { title: 'Processing & Extraction', text: 'Raw sources are processed into structured signals. Text extraction must meet a 95% quality threshold — hardcoded, not configurable. Every signal is validated against compliance checks before it can proceed.', constraint: 'Signal compliance is binary. All checks pass or the data does not advance.' },
+    analyze: { title: 'Independent Analysis', text: 'Each validated signal is assessed through independent analytical lenses examining different dimensions. The lenses do not communicate during processing — no interim results are shared. Each lens asks fundamentally different questions of the same data.', constraint: 'Lens independence is absolute. This is a structural property, not a software toggle.' },
+    fuse: { title: 'Fusion & Convergence', text: 'Independent lens outputs converge at the fusion layer. Where multiple independent analyses arrive at compatible conclusions, confidence strengthens. Divergence identifies where further collection is needed.', constraint: 'Convergence is detected, not manufactured. The fusion layer identifies agreement — it does not create it.' },
+    produce: { title: 'Intelligence Production', text: 'Classified behavioural patterns with full analytical provenance. Every output traces back through fusion, through independent assessments, through signal validation, to the original source material.', constraint: 'All outputs pass constitutional compliance checks before delivery. No exceptions.' },
+    govern: { title: 'Constitutional Governance', text: 'Hardcoded constraints that operate across every stage of the pipeline simultaneously. These cannot be overridden by users, administrators, or system updates. They define what the system will never do — regardless of what it is asked to do.', constraint: 'Governance is not a feature. It is the architecture.' }
+};
+let activeNode = null;
+const detail = document.getElementById('orbital-detail');
+document.querySelectorAll('[data-node]').forEach(el => {
+    el.addEventListener('click', () => {
+        const key = el.dataset.node;
+        if (activeNode === el) { el.classList.remove('active'); detail.classList.remove('visible'); activeNode = null; return; }
+        document.querySelectorAll('[data-node]').forEach(n => n.classList.remove('active'));
+        el.classList.add('active'); activeNode = el;
+        const d = nodeData[key];
+        detail.innerHTML = '<h4>' + d.title + '</h4><p>' + d.text + '</p><div class="detail-constraint">' + d.constraint + '</div>';
+        detail.classList.add('visible');
+    });
+});
+</script>
+
+</body>
+</html>

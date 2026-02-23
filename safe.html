@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAFE — Intelligence Infrastructure for Interpersonal Harm</title>
+<meta name="description" content="The first deployment of the Not A Standard analytical engine. Structured intelligence infrastructure for interpersonal harm, governed by constitutional AI constraints.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #FAFAF7; --bg-warm: #F4F1EC; --bg-dark: #1A1A18; --bg-dark-warm: #222220; --bg-card: #FFFFFF; --text: #1A1A18; --text-secondary: #6B6963; --text-muted: #A09E97; --text-on-dark: #E8E5DF; --accent: #C1432E; --accent-hover: #A83826; --accent-light: rgba(193, 67, 46, 0.08); --border: #E8E5DF; --border-light: #F0EDE8; --border-dark: rgba(255,255,255,0.08); --serif: 'Instrument Serif', Georgia, serif; --sans: 'Plus Jakarta Sans', -apple-system, sans-serif; --mono: 'IBM Plex Mono', monospace; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: white; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; height: 64px; background: rgba(250, 250, 247, 0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+nav.scrolled { border-bottom-color: var(--border); }
+.nav-logo { text-decoration: none; display: flex; align-items: center; }
+.nav-logo img { height: 28px; width: auto; display: block; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; position: relative; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--text); font-weight: 500; }
+.nav-links a.active::after { width: 100%; }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); margin: 5px 0; }
+.nav-dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border: 1px solid var(--border); min-width: 180px; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-4px); transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 0.5rem 0; }
+.nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown-menu a { display: block; padding: 0.55rem 1.2rem; font-size: 0.78rem; transition: all 0.2s ease; }
+.dropdown-menu a:hover { color: var(--accent); background: var(--accent-light); }
+.dropdown-menu a::after { display: none; }
+
+/* LAYOUT */
+.container { max-width: 1200px; margin: 0 auto; }
+section { padding: 7rem 3rem; }
+.divider { height: 1px; background: var(--border); margin: 0 3rem; }
+.section-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.section-label::before { content: ''; width: 16px; height: 1px; background: var(--accent); opacity: 0.5; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+.section-text { max-width: 620px; margin-bottom: 2rem; }
+.section-text p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; line-height: 1.85; margin-bottom: 1rem; }
+.section-text p strong { color: var(--text); font-weight: 500; }
+
+/* PAGE HEADER */
+.page-header { padding: 10rem 3rem 5rem; max-width: 1200px; margin: 0 auto; }
+.page-header-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards; }
+.page-header-label::before { content: ''; width: 32px; height: 1px; background: var(--accent); opacity: 0.6; }
+.page-header h1 { margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards; }
+.safe-hero-logo { height: 120px; width: auto; display: block; }
+.page-header h1 em { font-style: italic; color: var(--accent); }
+.page-header .lead { font-size: 1.1rem; font-weight: 300; color: var(--text-secondary); max-width: 560px; line-height: 1.85; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards; }
+.engine-ref { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.05em; opacity: 0; animation: fadeUp 0.7s ease 0.6s forwards; }
+.engine-ref a { color: var(--accent); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+.engine-ref a:hover { color: var(--accent-hover); }
+
+/* PULL QUOTE */
+.pull-quote { font-family: var(--serif); font-size: 1.5rem; line-height: 1.5; color: var(--text); font-style: italic; padding-left: 1.5rem; border-left: 2px solid var(--accent); margin: 3rem 0 0; max-width: 700px; }
+
+/* ======================== CLASSIFICATION LENS ======================== */
+.lens-wrapper { margin-top: 3.5rem; }
+
+/* Scenario selector */
+.scenario-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.scenario-tab {
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.06em; padding: 0.7rem 1.2rem;
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    cursor: pointer; transition: all 0.3s ease; color: var(--text-secondary);
+}
+.scenario-tab:hover { border-color: var(--border); color: var(--text); }
+.scenario-tab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); font-weight: 500; }
+
+/* The lens display */
+.lens-display { position: relative; }
+
+.lens-input {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 2rem 2.5rem; margin-bottom: 1.5rem; position: relative;
+    border-left: 3px solid var(--text-muted);
+}
+.lens-input-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.6rem; }
+.lens-input-text { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; line-height: 1.5; color: var(--text); }
+.lens-input-context { font-size: 0.85rem; color: var(--text-secondary); font-weight: 300; margin-top: 0.6rem; line-height: 1.7; }
+
+/* Arrow connector */
+.lens-connector { display: flex; align-items: center; justify-content: center; height: 40px; position: relative; }
+.lens-connector::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: linear-gradient(to bottom, var(--border), var(--accent)); }
+.lens-connector::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+/* Analysis layers */
+.lens-layers { display: flex; flex-direction: column; gap: 0; }
+
+.lens-layer {
+    display: grid; grid-template-columns: 140px 1fr; gap: 0;
+    border: 1px solid var(--border-light); border-bottom: none;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.lens-layer:last-child { border-bottom: 1px solid var(--border-light); }
+.lens-layer.visible { opacity: 1; transform: translateY(0); }
+
+.layer-label {
+    padding: 1rem 1.2rem; background: var(--bg-warm);
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-secondary); display: flex; align-items: center;
+    border-right: 1px solid var(--border-light);
+}
+.layer-value {
+    padding: 1rem 1.5rem; background: var(--bg-card);
+    display: flex; align-items: center; gap: 1rem;
+}
+.layer-tag {
+    font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+    color: var(--accent); background: var(--accent-light);
+    padding: 0.3rem 0.7rem; white-space: nowrap;
+}
+.layer-desc { font-size: 0.85rem; color: var(--text-secondary); font-weight: 300; }
+
+/* Process indicator */
+.lens-status {
+    margin-top: 1.5rem; padding: 0.8rem 1.2rem;
+    background: var(--bg-warm); border: 1px solid var(--border-light);
+    display: flex; align-items: center; gap: 0.8rem;
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+.lens-status-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.lens-status.complete .lens-status-dot { animation: none; opacity: 1; background: #2E7D32; }
+.lens-status.complete { color: var(--text-secondary); }
+
+/* ======================== SILOS ======================== */
+.silo-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; margin-top: 2rem; }
+.silo {
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    padding: 1.2rem 0.75rem; text-align: center;
+    cursor: pointer; transition: all 0.3s ease;
+}
+.silo:hover { border-color: var(--border); background: var(--bg-warm); }
+.silo.active { border-color: var(--accent); background: var(--accent-light); }
+.silo-id { font-family: var(--mono); font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+.silo.active .silo-id { color: var(--accent); }
+.silo-name { font-family: var(--mono); font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.silo-explanation {
+    margin-top: 1rem; padding: 1.5rem 2rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    display: none; animation: slideDown 0.25s ease;
+}
+.silo-explanation.visible { display: block; }
+.silo-explanation h4 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; margin-bottom: 0.6rem; }
+.silo-explanation p { font-size: 0.9rem; color: var(--text-secondary); font-weight: 300; line-height: 1.75; }
+.isolation-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.7rem; border: 1px solid var(--accent-light);
+    color: var(--accent); margin-top: 0.8rem;
+}
+
+/* CONVERGENCE */
+.convergence-note {
+    margin-top: 2.5rem; padding: 1.5rem 2rem;
+    border-left: 2px solid var(--accent); background: var(--bg-card);
+}
+.convergence-note h4 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; margin-bottom: 0.5rem; }
+.convergence-note p { font-size: 0.88rem; color: var(--text-secondary); font-weight: 300; line-height: 1.75; }
+
+/* ======================== CONSTITUTIONAL (DARK) ======================== */
+.section-dark { background: var(--bg-dark); color: var(--text-on-dark); }
+.section-dark .section-label { color: rgba(255,255,255,0.35); }
+.section-dark .section-label::before { background: var(--accent); opacity: 0.8; }
+.section-dark .section-title { color: var(--text-on-dark); }
+
+.constraints-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2.5rem; }
+.constraint {
+    background: var(--bg-dark-warm); border: 1px solid var(--border-dark);
+    border-left: 3px solid rgba(193,67,46,0.4); padding: 1.2rem 1.5rem;
+    transition: all 0.3s ease;
+}
+.constraint:hover { border-left-color: var(--accent); }
+.constraint-id { font-family: var(--mono); font-size: 0.58rem; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 0.4rem; }
+.constraint-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.6; }
+.constraint-footer {
+    margin-top: 2rem; padding: 1rem 1.5rem;
+    border-left: 2px solid rgba(255,255,255,0.1);
+    font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.35);
+}
+.constraint-footer strong { color: var(--accent); font-weight: 500; }
+
+/* CTA */
+.cta-section { padding: 6rem 3rem; text-align: center; }
+.cta-section .section-title { margin-bottom: 1rem; }
+.cta-section p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.85; }
+.cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; color: white; background: var(--text); padding: 0.9rem 2rem; text-decoration: none; transition: all 0.35s ease; }
+.btn-primary:hover { background: var(--accent); }
+.btn-outline { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 400; color: var(--text-secondary); border: 1px solid var(--border); padding: 0.85rem 1.8rem; text-decoration: none; transition: all 0.3s ease; background: transparent; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* SAFETY */
+.safety { padding: 2.5rem 3rem; text-align: center; background: var(--bg-warm); border-top: 1px solid var(--border-light); }
+.safety p { font-size: 0.82rem; color: var(--text-muted); max-width: 550px; margin: 0 auto; line-height: 1.8; }
+.safety a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.safety a:hover { text-decoration: underline; }
+
+/* FOOTER */
+.footer-right { display: flex; gap: 2rem; padding: 2.5rem 3rem; border-top: 1px solid var(--border-light); justify-content: center; }
+.footer-right a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+.footer-right a:hover { color: var(--text); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .constraints-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(250, 250, 247, 0.98); backdrop-filter: blur(20px); padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .nav-dropdown .dropdown-menu { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; border: none; backdrop-filter: none; padding: 0.3rem 0 0 1rem; min-width: 0; }
+    .dropdown-menu a { padding: 0.35rem 0; font-size: 0.75rem; }
+    section { padding: 5rem 1.5rem; }
+    .page-header { padding: 8rem 1.5rem 4rem; }
+    .safe-hero-logo { height: 90px; }
+    .divider { margin: 0 1.5rem; }
+    .silo-grid { grid-template-columns: repeat(3, 1fr); }
+    .lens-layer { grid-template-columns: 100px 1fr; }
+    .layer-value { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    .scenario-tabs { gap: 0.4rem; }
+    .scenario-tab { padding: 0.5rem 0.8rem; font-size: 0.62rem; }
+    .footer-right { flex-direction: column; gap: 1rem; text-align: center; }
+    .cta-group { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+    <a href="index.html" class="nav-logo"><img src="nas-logo.png" alt="Not A Standard" height="28"></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+        <li><a href="index.html">Company</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li class="nav-dropdown">
+            <a href="index.html#work" class="active">Our Work</a>
+            <div class="dropdown-menu">
+                <a href="engine.html">The Engine</a>
+                <a href="safe.html">SAFE Platform</a>
+                <a href="https://tfa.notastandard.org" target="_blank" rel="noopener">TFA Matrix</a>
+            </div>
+        </li>
+        <li><a href="index.html#resources">Resources</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ======================== HEADER ======================== -->
+<div class="page-header">
+    <div class="page-header-label">First Engine Deployment &middot; Interpersonal Harm</div>
+    <h1><img src="safe-logo.png" alt="SAFE" class="safe-hero-logo"></h1>
+    <p class="lead">The first intelligence infrastructure for systematically analysing interpersonal harm. Built on the Not A Standard analytical engine. Governed by constitutional AI constraints.</p>
+    <div class="engine-ref">Powered by <a href="engine.html">The Engine &rarr;</a></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ======================== THE PROBLEM ======================== -->
+<section>
+    <div class="container">
+        <div class="section-label">The problem</div>
+        <div class="section-title">Case notes and professional judgement.<br>That's the current state of the art.</div>
+        <div class="section-text reveal">
+            <p>Practitioners working in domestic violence, coercive control, and technology-facilitated abuse make critical safety assessments every day. The tools available to them are spreadsheets, checklists, and institutional memory.</p>
+            <p>There is no structured vocabulary for describing what they see. No way to detect that the same patterns keep appearing across different cases, different perpetrators, different surface behaviours. <strong>No intelligence infrastructure.</strong></p>
+            <p>SAFE changes this. Not by replacing practitioner expertise — but by giving it structure, provenance, and analytical power it has never had.</p>
+        </div>
+        <p class="pull-quote reveal">"Every other high-stakes analytical domain has systematic frameworks for understanding threats. Interpersonal harm — despite affecting more people globally than any cyber attack — has been left to case notes and gut instinct."</p>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== CLASSIFICATION LENS ======================== -->
+<section style="background: var(--bg-warm);">
+    <div class="container">
+        <div class="section-label">How SAFE analyses</div>
+        <div class="section-title">What practitioners see. What the system sees.</div>
+        <div class="section-text reveal">
+            <p>A practitioner describes a behaviour. SAFE classifies it through structured analytical dimensions — turning observation into intelligence that can be compared, tracked, and connected across cases.</p>
+        </div>
+
+        <div class="lens-wrapper reveal">
+            <!-- Scenario tabs -->
+            <div class="scenario-tabs">
+                <div class="scenario-tab active" data-scenario="0">Monitoring &amp; surveillance</div>
+                <div class="scenario-tab" data-scenario="1">Financial control</div>
+                <div class="scenario-tab" data-scenario="2">Post-separation proxy abuse</div>
+            </div>
+
+            <!-- Lens display -->
+            <div class="lens-display">
+                <div class="lens-input">
+                    <div class="lens-input-label">Practitioner observation</div>
+                    <div class="lens-input-text" id="lens-observation"></div>
+                    <div class="lens-input-context" id="lens-context"></div>
+                </div>
+
+                <div class="lens-connector"></div>
+
+                <div class="lens-layers" id="lens-layers">
+                    <div class="lens-layer" data-layer="0">
+                        <div class="layer-label">Mode</div>
+                        <div class="layer-value"><span class="layer-tag" id="tag-mode"></span><span class="layer-desc" id="desc-mode"></span></div>
+                    </div>
+                    <div class="lens-layer" data-layer="1">
+                        <div class="layer-label">Mechanism</div>
+                        <div class="layer-value"><span class="layer-tag" id="tag-mechanism"></span><span class="layer-desc" id="desc-mechanism"></span></div>
+                    </div>
+                    <div class="lens-layer" data-layer="2">
+                        <div class="layer-label">Domain</div>
+                        <div class="layer-value"><span class="layer-tag" id="tag-domain"></span><span class="layer-desc" id="desc-domain"></span></div>
+                    </div>
+                    <div class="lens-layer" data-layer="3">
+                        <div class="layer-label">Vector</div>
+                        <div class="layer-value"><span class="layer-tag" id="tag-vector"></span><span class="layer-desc" id="desc-vector"></span></div>
+                    </div>
+                </div>
+
+                <div class="lens-status" id="lens-status">
+                    <span class="lens-status-dot"></span>
+                    <span id="lens-status-text">Classifying...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== INDEPENDENT SILOS ======================== -->
+<section>
+    <div class="container">
+        <div class="section-label">Independent analytical silos</div>
+        <div class="section-title">Six lenses. No communication.<br>Convergence detected, not manufactured.</div>
+        <div class="section-text reveal">
+            <p>Each piece of evidence is assessed through six independent analytical lenses simultaneously. The lenses are <strong>architecturally isolated</strong> — they cannot share interim results during processing. When multiple lenses independently arrive at compatible conclusions, that convergence carries real analytical weight.</p>
+        </div>
+
+        <div class="silo-grid reveal">
+            <div class="silo" data-silo="q1"><div class="silo-id">Q1</div><div class="silo-name">Lens 1</div></div>
+            <div class="silo" data-silo="q2"><div class="silo-id">Q2</div><div class="silo-name">Lens 2</div></div>
+            <div class="silo" data-silo="q3"><div class="silo-id">Q3</div><div class="silo-name">Lens 3</div></div>
+            <div class="silo" data-silo="q4"><div class="silo-id">Q4</div><div class="silo-name">Lens 4</div></div>
+            <div class="silo" data-silo="q5"><div class="silo-id">Q5</div><div class="silo-name">Lens 5</div></div>
+            <div class="silo" data-silo="q6"><div class="silo-id">Q6</div><div class="silo-name">Lens 6</div></div>
+        </div>
+        <div id="silo-explanation" class="silo-explanation">
+            <h4 id="silo-title"></h4>
+            <p id="silo-text"></p>
+            <div class="isolation-badge">Silo isolation: absolute</div>
+        </div>
+
+        <div class="convergence-note reveal">
+            <h4>Why isolation matters</h4>
+            <p>In traditional analysis, shared context creates confirmation bias — early conclusions shape later ones. By preventing any communication between lenses during processing, SAFE ensures that when signals converge, they converge independently. That's the difference between pattern recognition and pattern projection.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== CONSTITUTIONAL GOVERNANCE ======================== -->
+<section class="section-dark">
+    <div class="container">
+        <div class="section-label">Constitutional governance</div>
+        <div class="section-title">What the system will never do</div>
+        <div class="reveal" style="max-width:620px;margin-bottom:1rem;"><p style="color:rgba(255,255,255,0.55);font-size:1rem;font-weight:300;line-height:1.85;">Governed by constitutional constraints that cannot be overridden by users, administrators, or system updates. These are architectural invariants, not configuration options.</p></div>
+        <div class="constraints-grid reveal">
+            <div class="constraint"><div class="constraint-id">CON-01</div><div class="constraint-text">No individual predictions. The system identifies patterns — it does not predict what any individual will do.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-02</div><div class="constraint-text">No severity hierarchy. All forms of harm are structurally equivalent. The taxonomy does not rank.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-03</div><div class="constraint-text">No victim blaming. Outputs cannot attribute responsibility to the person experiencing harm.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-04</div><div class="constraint-text">No intent inference. Behaviour is classified by observable pattern, never by assumed motive.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-05</div><div class="constraint-text">No PII in outputs. Intelligence products contain patterns, not personal identifying information.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-06</div><div class="constraint-text">No weaponisable outputs. All outputs pass safety filtering before delivery.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-07</div><div class="constraint-text">Silo independence is absolute. Analytical lenses do not share interim conclusions during processing.</div></div>
+            <div class="constraint"><div class="constraint-id">CON-08</div><div class="constraint-text">Signal compliance is binary. All validation checks pass, or the data does not enter the pipeline.</div></div>
+        </div>
+        <div class="constraint-footer">These constraints are <strong>non-negotiable</strong> and <strong>non-configurable</strong>. They exist because this system analyses harm — and must never cause it.</div>
+    </div>
+</section>
+
+<!-- ======================== CTA ======================== -->
+<div class="cta-section">
+    <div class="section-title">Intelligence infrastructure for a<br>domain that has none</div>
+    <p>SAFE is in advanced development. If you work in intelligence, security, law enforcement, domestic violence services, or policy — we'd like to hear from you.</p>
+    <div class="cta-group">
+        <a href="index.html#contact" class="btn-primary">Request a Briefing</a>
+        <a href="engine.html" class="btn-outline">See the Engine &rarr;</a>
+    </div>
+</div>
+
+<!-- ======================== SAFETY ======================== -->
+<div class="safety">
+    <p>If you are in immediate danger, call <strong>000</strong>. For support: <a href="tel:1800737732">1800RESPECT</a> &middot; <a href="tel:131114">Lifeline 13 11 14</a>. Your safety matters &mdash; reach out for help.</p>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-right">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/accessibility.html">Accessibility</a>
+    <a href="mailto:hello@notastandard.org">hello@notastandard.org</a>
+    <a href="https://www.linkedin.com/company/not-a-standard-org/" target="_blank" rel="noopener">LinkedIn</a>
+</div>
+
+<script>
+// Reveal
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+setTimeout(() => { document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible')); }, 1500);
+
+// ======================== CLASSIFICATION LENS ========================
+const scenarios = [
+    {
+        observation: "Partner has installed tracking software on her phone, monitors all social media accounts, and checks her location throughout the day.",
+        context: "Reported during intake. Client discovered the app after noticing her battery draining faster than normal.",
+        mode: { tag: "Abuse", desc: "Behaviour designed to maintain power and control" },
+        mechanism: { tag: "Isolation", desc: "Restricting autonomy and severing independent action" },
+        domain: { tag: "Environmental", desc: "Effects manifest in the victim's digital and physical environment" },
+        vector: { tag: "Tech-Facilitated", desc: "Enacted through technology as the primary instrument of control" }
+    },
+    {
+        observation: "Partner has removed her name from all bank accounts, provides a cash allowance, and requires receipts for every purchase.",
+        context: "Pattern identified across three months of case documentation. Client reports increasing restrictions after she started a new job.",
+        mode: { tag: "Exploitation", desc: "Extracting or restricting access to resources" },
+        mechanism: { tag: "Force", desc: "Direct restriction without deception — overt control" },
+        domain: { tag: "Environmental", desc: "Effects manifest in financial resources and material conditions" },
+        vector: { tag: "Direct", desc: "Perpetrator acts directly against the victim without intermediaries" }
+    },
+    {
+        observation: "Since separation, ex-partner uses child handovers to interrogate children about mother's new address, routines, and who she's seeing.",
+        context: "Identified by family court report writer. Children report feeling 'like spies' but are told 'Dad just wants to make sure you're safe.'",
+        mode: { tag: "Abuse", desc: "Behaviour designed to maintain power and control" },
+        mechanism: { tag: "Manipulation", desc: "Control enacted through deception, distortion, or exploitation of trust" },
+        domain: { tag: "Psychological", desc: "Effects manifest in psychological wellbeing and sense of safety" },
+        vector: { tag: "Proxy", desc: "Enacted through third parties — in this case, children as unwitting intermediaries" }
+    }
+];
+
+let currentScenario = 0;
+let animationTimer = null;
+
+function showScenario(index) {
+    currentScenario = index;
+    const s = scenarios[index];
+
+    // Update tabs
+    document.querySelectorAll('.scenario-tab').forEach((t, i) => {
+        t.classList.toggle('active', i === index);
+    });
+
+    // Update input
+    document.getElementById('lens-observation').textContent = s.observation;
+    document.getElementById('lens-context').textContent = s.context;
+
+    // Reset layers
+    document.querySelectorAll('.lens-layer').forEach(l => l.classList.remove('visible'));
+    const status = document.getElementById('lens-status');
+    status.classList.remove('complete');
+    document.getElementById('lens-status-text').textContent = 'Classifying...';
+
+    // Clear any existing animation
+    if (animationTimer) clearTimeout(animationTimer);
+
+    // Populate values
+    document.getElementById('tag-mode').textContent = s.mode.tag;
+    document.getElementById('desc-mode').textContent = s.mode.desc;
+    document.getElementById('tag-mechanism').textContent = s.mechanism.tag;
+    document.getElementById('desc-mechanism').textContent = s.mechanism.desc;
+    document.getElementById('tag-domain').textContent = s.domain.tag;
+    document.getElementById('desc-domain').textContent = s.domain.desc;
+    document.getElementById('tag-vector').textContent = s.vector.tag;
+    document.getElementById('desc-vector').textContent = s.vector.desc;
+
+    // Animate layers in sequence
+    const layers = document.querySelectorAll('.lens-layer');
+    layers.forEach((layer, i) => {
+        setTimeout(() => { layer.classList.add('visible'); }, 400 + (i * 350));
+    });
+
+    // Complete status
+    animationTimer = setTimeout(() => {
+        status.classList.add('complete');
+        document.getElementById('lens-status-text').textContent =
+            'Classification complete \u2014 ' + s.mode.tag + ' \u00b7 ' + s.mechanism.tag + ' \u00b7 ' + s.domain.tag + ' \u00b7 ' + s.vector.tag;
+    }, 400 + (4 * 350) + 200);
+}
+
+// Tab clicks
+document.querySelectorAll('.scenario-tab').forEach(tab => {
+    tab.addEventListener('click', () => showScenario(parseInt(tab.dataset.scenario)));
+});
+
+// Init first scenario
+showScenario(0);
+
+// ======================== SILOS ========================
+const siloData = {
+    q1: { title: 'Lens 1', text: 'The first analytical lens examines source material through its primary epistemic dimension. Each lens asks a fundamentally different question of the same data — ensuring that the analysis covers the full analytical surface.' },
+    q2: { title: 'Lens 2', text: 'The second lens applies an orthogonal analytical perspective. Where lenses converge without coordination, the resulting signal carries substantially higher confidence than any single assessment could.' },
+    q3: { title: 'Lens 3', text: 'The third lens assesses a dimension the other lenses are architecturally prevented from considering during their own processing cycle. The isolation is structural, not procedural.' },
+    q4: { title: 'Lens 4', text: 'The fourth lens operates on a distinct analytical axis. The wall between silos is a structural property of the pipeline — it cannot be bypassed by configuration, administration, or system updates.' },
+    q5: { title: 'Lens 5', text: 'The fifth lens challenges assumptions the other lenses might generate — an adversarial analytical function built into the architecture. It looks for what the other lenses might miss.' },
+    q6: { title: 'Lens 6', text: 'The sixth lens completes the framework. Only after all six independently produce their assessments does the fusion layer receive any output. Until then, each lens operates in total isolation.' }
+};
+
+let activeSilo = null;
+const siloExpl = document.getElementById('silo-explanation');
+
+document.querySelectorAll('.silo').forEach(silo => {
+    silo.addEventListener('click', () => {
+        const key = silo.dataset.silo;
+        if (activeSilo === silo) { silo.classList.remove('active'); siloExpl.classList.remove('visible'); activeSilo = null; return; }
+        document.querySelectorAll('.silo').forEach(s => s.classList.remove('active'));
+        silo.classList.add('active'); activeSilo = silo;
+        const d = siloData[key];
+        document.getElementById('silo-title').textContent = d.title;
+        document.getElementById('silo-text').textContent = d.text;
+        siloExpl.classList.add('visible');
+    });
+});
+</script>
+
+</body>
+</html>

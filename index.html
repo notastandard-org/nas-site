@@ -50,10 +50,9 @@
         }
         nav.scrolled { border-bottom-color: var(--border); }
         .nav-logo {
-            font-family: var(--mono); font-weight: 500; font-size: 0.7rem;
-            letter-spacing: 0.2em; text-transform: uppercase;
-            color: var(--text); text-decoration: none;
+            text-decoration: none; display: flex; align-items: center;
         }
+        .nav-logo img { height: 28px; width: auto; display: block; }
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a {
             font-family: var(--sans); font-size: 0.8rem; font-weight: 400;
@@ -69,6 +68,29 @@
         .nav-links a:hover::after { width: 100%; }
         .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
         .nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); margin: 5px 0; transition: all 0.3s ease; }
+
+        /* NAV DROPDOWN */
+        .nav-dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); min-width: 180px;
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-4px);
+            transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 0.5rem 0;
+        }
+        .nav-dropdown:hover .dropdown-menu,
+        .nav-dropdown:focus-within .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: block; padding: 0.55rem 1.2rem;
+            font-family: var(--sans); font-size: 0.78rem; font-weight: 400;
+            color: var(--text-secondary); text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .dropdown-menu a:hover { color: var(--accent); background: var(--accent-light); }
+        .dropdown-menu a::after { display: none; }
 
         /* ======================== HERO ======================== */
         .hero {
@@ -193,14 +215,14 @@
         .about-right p strong { color: var(--text); font-weight: 500; }
 
         /* ======================== WHAT WE DO (merged) ======================== */
-        #whatwedo { background: var(--bg-warm); }
+        #services { background: var(--bg-warm); }
         .wwd-intro {
             max-width: 620px; margin-bottom: 3.5rem;
         }
         .wwd-intro p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; line-height: 1.85; }
 
         /* Engagement types */
-        .engage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem; }
+        .engage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .engage-card {
             background: var(--bg-card); padding: 2.5rem; border: 1px solid var(--border-light);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: default;
@@ -503,6 +525,12 @@
             }
             .nav-links.open { display: flex; }
             .nav-toggle { display: block; }
+            .nav-dropdown .dropdown-menu {
+                position: static; transform: none; opacity: 1; visibility: visible;
+                background: transparent; border: none; backdrop-filter: none;
+                padding: 0.3rem 0 0 1rem; min-width: 0;
+            }
+            .dropdown-menu a { padding: 0.35rem 0; font-size: 0.75rem; }
             section, .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
             .hero { padding-top: 8rem; }
             .engage-grid { grid-template-columns: 1fr; }
@@ -527,15 +555,21 @@
 <body>
 
 <nav id="navbar">
-    <a href="#" class="nav-logo">[Not A Standard]</a>
+    <a href="#" class="nav-logo"><img src="nas-logo.png" alt="Not A Standard" height="28"></a>
     <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">
         <span></span><span></span><span></span>
     </button>
     <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#whatwedo">What We Do</a></li>
-        <li><a href="#work">Our Work</a></li>
-        <li><a href="#tfa-matrix">TFA Matrix</a></li>
+        <li><a href="#about">Company</a></li>
+        <li><a href="#services">Services</a></li>
+        <li class="nav-dropdown">
+            <a href="#work">Our Work</a>
+            <div class="dropdown-menu">
+                <a href="engine.html">The Engine</a>
+                <a href="safe.html">SAFE Platform</a>
+                <a href="https://tfa.notastandard.org" target="_blank" rel="noopener">TFA Matrix</a>
+            </div>
+        </li>
         <li><a href="#resources">Resources</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
@@ -589,13 +623,13 @@
 
 <div class="divider"></div>
 
-<!-- ======================== WHAT WE DO ======================== -->
-<section id="whatwedo">
+<!-- ======================== CONSULTANCY SERVICES ======================== -->
+<section id="services">
     <div class="container">
-        <div class="section-label">What we do</div>
+        <div class="section-label">Consultancy services</div>
         <div class="section-title">The shape of our work depends<br>on your problem</div>
         <div class="wwd-intro reveal">
-            <p>We work across multiple domains, but every engagement starts with the same question: what's the human behaviour you're trying to understand? <strong>Not</strong> who are you trying to profile.</strong></p>
+            <p>We work across multiple domains, but every engagement starts with the same question: what's the human behaviour you're trying to understand? <strong>Not</strong> who are you trying to profile.</p>
         </div>
 
         <!-- Engagement types -->
@@ -625,30 +659,10 @@
                 <h3>Assessments</h3>
                 <p>Human factors security assessments. Insider threat program maturity reviews. Security culture analysis. A clear picture of your posture and what to do about it.</p>
             </div>
-        </div>
-
-        <!-- Domains -->
-        <div class="domains-sub-label reveal">Where our methodology applies</div>
-        <div class="domains-list reveal">
-            <div class="domain-row">
-                <div class="domain-num">01</div>
-                <div class="domain-name">Insider Threat</div>
-                <div class="domain-desc">The behaviours and patterns that precede insider incidents. Pre-incident indicators, not post-incident forensics.</div>
-            </div>
-            <div class="domain-row">
-                <div class="domain-num">02</div>
-                <div class="domain-name">Social Engineering &amp; Security Culture</div>
-                <div class="domain-desc">How do people fall victim to scams or exploitation, and what actually drives secure behaviour. The techniques, the psychology, and the organisational factors.</div>
-            </div>
-            <div class="domain-row">
-                <div class="domain-num">03</div>
-                <div class="domain-name">Interpersonal Harm</div>
-                <div class="domain-desc">Patterns of coercion, abuse, control, and exploitation: mapped systematically. For DV services, government, legal, and anyone working in this space.</div>
-            </div>
-            <div class="domain-row">
-                <div class="domain-num">04</div>
-                <div class="domain-name">Dis/Mis-information &amp; Influence</div>
-                <div class="domain-desc">Information manipulation, narrative warfare, and influence operations. The same exploitation patterns, different context.</div>
+            <div class="engage-card reveal reveal-delay-2">
+                <div class="engage-num">06</div>
+                <h3>Implementation</h3>
+                <p>SAFE Platform deployment, integration, and operational support. Getting intelligence infrastructure into production within your organisation.</p>
             </div>
         </div>
     </div>
@@ -677,19 +691,34 @@
 
             <div class="initiative-card reveal reveal-delay-1">
                 <span class="initiative-status status-development">In Development</span>
-                <h3>SAFE &amp; the Engine</h3>
-                <div class="initiative-subtitle">Intelligence infrastructure for interpersonal harm</div>
-                <p>Applying threat intelligence methodology — TTPs, structured analysis, constitutional AI — to patterns of coercion, abuse, and exploitation. Built for DV practitioners, government analysts, and the legal sector.</p>
+                <h3>The Engine</h3>
+                <div class="initiative-subtitle">Domain-agnostic intelligence infrastructure</div>
+                <p>Longitudinal pattern detection across contested knowledge domains. Independent analytical lenses, constitutional governance, and structured intelligence production — configurable for any domain where patterns persist.</p>
+                <a href="engine.html" class="initiative-link">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
             </div>
 
             <div class="initiative-card reveal">
+                <span class="initiative-status status-development">In Development</span>
+                <h3>SAFE</h3>
+                <div class="initiative-subtitle">Intelligence infrastructure for interpersonal harm</div>
+                <p>The first deployment of the Engine. Applying threat intelligence methodology — TTPs, structured analysis, constitutional AI — to patterns of coercion, abuse, and exploitation. Built for DV practitioners, government analysts, and the legal sector.</p>
+                <a href="safe.html" class="initiative-link">
+                    Explore SAFE
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+
+            <div class="initiative-card reveal reveal-delay-1">
                 <span class="initiative-status status-coming">Coming Soon</span>
                 <h3>Zero Day Women</h3>
                 <div class="initiative-subtitle">A podcast from Dumb Ways To Get Hacked</div>
                 <p>Women doing unprecedented things in cyber, security, and intelligence and the stories that got them there. Not empowerment speeches, cupcakes or panels about leaning in. Just the work, and how they got there.</p>
             </div>
 
-            <div class="initiative-card reveal reveal-delay-1">
+            <div class="initiative-card reveal">
                 <span class="initiative-status status-development">In Development</span>
                 <h3>"[WorkingTitle]"</h3>
                 <div class="initiative-subtitle">Bridging cybersecurity and non-cyber audiences</div>
@@ -908,6 +937,8 @@
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Fallback: if elements haven't become visible after 1.5s, force them
+    setTimeout(() => { document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible')); }, 1500);
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
             e.preventDefault();
