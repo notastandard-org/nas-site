@@ -204,6 +204,88 @@
         }
         .divider { height: 1px; background: var(--border); margin: 0 3rem; }
 
+        /* ======================== LAUNCH ANNOUNCEMENT ======================== */
+        .launch-announce {
+            background: var(--bg-dark); color: var(--text-on-dark);
+            padding: 4.5rem 3rem; position: relative; overflow: hidden;
+        }
+        .launch-announce::before {
+            content: ''; position: absolute; top: -60%; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(193, 67, 46, 0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .launch-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .launch-badge {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: #2E7D32; margin-bottom: 1.5rem;
+        }
+        .launch-badge-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: #2E7D32;
+            animation: pulse-live 2s ease-in-out infinite;
+        }
+        @keyframes pulse-live {
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4); }
+            50% { opacity: 1; box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+        }
+        .launch-title {
+            font-family: var(--serif); font-size: clamp(3rem, 4vw, 2.8rem);
+            font-weight: 400; line-height: 1.15; margin-bottom: 1.2rem;
+            color: var(--text-on-dark); letter-spacing: -0.01em;
+        }
+        .launch-title em { font-style: italic; color: var(--accent); }
+        .launch-desc {
+            font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.55);
+            line-height: 1.85; margin-bottom: 2rem; max-width: 460px;
+        }
+        .launch-desc strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+        .launch-cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .launch-cta-primary {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+            color: white; background: var(--accent); padding: 0.85rem 1.8rem;
+            text-decoration: none; transition: all 0.3s ease;
+        }
+        .launch-cta-primary:hover { background: var(--accent-hover); }
+        .launch-cta-primary svg { width: 14px; height: 14px; transition: transform 0.3s ease; }
+        .launch-cta-primary:hover svg { transform: translateX(3px); }
+        .launch-cta-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 400;
+            color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.08);
+            padding: 0.8rem 1.5rem; text-decoration: none; transition: all 0.3s ease;
+        }
+        .launch-cta-secondary:hover { border-color: var(--accent); color: rgba(255,255,255,0.8); }
+        .launch-right {
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .launch-stat {
+            padding: 1.2rem 1.5rem;
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+        .launch-stat:hover { border-color: rgba(193, 67, 46, 0.3); }
+        .launch-stat-label {
+            font-family: var(--mono); font-size: 0.55rem; font-weight: 400;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: rgba(255,255,255,0.35); margin-bottom: 0.4rem;
+        }
+        .launch-stat-value {
+            font-family: var(--serif); font-size: 1.3rem; color: rgba(255,255,255,0.85);
+        }
+        .launch-stat-value em { font-style: italic; color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .launch-announce { padding: 3.5rem 1.5rem; }
+            .launch-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .launch-cta-group { flex-direction: column; align-items: flex-start; }
+        }
+
         /* ======================== ABOUT ======================== */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 3.5rem; }
         .about-quote {
@@ -286,6 +368,7 @@
         }
         .status-published { background: rgba(46, 125, 50, 0.08); color: #2E7D32; }
         .status-development { background: var(--accent-light); color: var(--accent); }
+        .status-available { background: rgba(46, 125, 50, 0.08); color: #2E7D32; }
         .status-coming { background: rgba(30, 30, 30, 0.06); color: var(--text-secondary); }
 
         .initiative-card h3 {
@@ -603,6 +686,32 @@
 
 <div class="divider"></div>
 
+<!-- ======================== SAFE LAUNCH ANNOUNCEMENT ======================== -->
+<div class="launch-announce">
+    <div class="launch-inner">
+        <div>
+            <div class="launch-badge">
+                <span class="launch-badge-dot"></span>
+                Now Live &mdash; April 2025
+            </div>
+            <div class="launch-title">SAFE is <em>here.</em></div>
+            <p class="launch-desc">The world's first <strong>threat intelligence platform for interpersonal harm. </strong> One analytical grammar. Every domain it touches.</p>
+            <div class="launch-cta-group">
+                <a href="safe.html" class="launch-cta-primary">
+                    Explore the Platform
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+                <a href="https://calendly.com/em-notastandard/" target="_blank" rel="noopener" class="launch-cta-secondary">
+                    Request a Briefing
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
 <!-- ======================== ABOUT ======================== -->
 <section id="about">
     <div class="container">
@@ -682,7 +791,7 @@
                 <span class="initiative-status status-published">Published</span>
                 <h3>TFA Matrix</h3>
                 <div class="initiative-subtitle">Open-source threat intelligence framework</div>
-                <p>The first structured knowledge base mapping how technology is weaponised in interpersonal harm. 7 tactics. 74 techniques. Think MITRE ATT&CK for tech-facilitated abuse. Open source, evidence-based, practitioner-focused.</p>
+                <p>The first structured knowledge base mapping how technology is weaponised in interpersonal harm. 9 tactics. 94 techniques. Think MITRE ATT&CK for tech-facilitated abuse. Open source, evidence-based, practitioner-focused.</p>
                 <a href="https://tfa.notastandard.org/" class="initiative-link" target="_blank" rel="noopener">
                     Explore the Matrix
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -701,25 +810,14 @@
             </div>
 
             <div class="initiative-card reveal">
-                <span class="initiative-status status-development">In Development</span>
+                <span class="initiative-status status-available">Now Available</span>
                 <h3>SAFE</h3>
                 <div class="initiative-subtitle">Intelligence infrastructure for interpersonal harm</div>
-                <p>The first deployment of the Engine. Applying threat intelligence methodology — TTPs, structured analysis, constitutional AI — to patterns of coercion, abuse, and exploitation. Built for DV practitioners, government analysts, and the legal sector.</p>
+                <p>The world's first harm intelligence platform. Applying threat intelligence methodology &mdash; TTPs, structured analysis, constitutional AI &mdash; to patterns of coercion, abuse, and exploitation. Built for government, security, and the legal sector.</p>
                 <a href="safe.html" class="initiative-link">
                     Explore SAFE
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
-                <a href="https://calendly.com/em-notastandard/" class="initiative-link" target="_blank" rel="noopener" style="margin-left: 1.2rem;">
-                    Request a Demo
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </a>
-            </div>
-
-            <div class="initiative-card reveal reveal-delay-1">
-                <span class="initiative-status status-coming">Coming Soon</span>
-                <h3>Zero Day Women</h3>
-                <div class="initiative-subtitle">A podcast from Dumb Ways To Get Hacked</div>
-                <p>Women doing unprecedented things in cyber, security, and intelligence and the stories that got them there. Not empowerment speeches, cupcakes or panels about leaning in. Just the work, and how they got there.</p>
             </div>
 
             <div class="initiative-card reveal">
@@ -777,8 +875,18 @@
                 <h3>Physical Enablement</h3>
                 <p>Location-based assault, smart lock manipulation, vehicle sabotage</p>
             </div>
+            <div class="tactic-card">
+                <div class="tactic-id">TA-008</div>
+                <h3>Grooming &amp; Targeted Recruitment</h3>
+                <p>Techniques for building exploitative relationships via technology</p>
+            </div>
+            <div class="tactic-card">
+                <div class="tactic-id">TA-009</div>
+                <h3>Discovery &amp; Preparation</h3>
+                <p>How perpetrators learn, discover and aquire the tools to cause harm</p>
+            </div>
         </div>
-        <div class="matrix-stat">7 Tactics · 74 Techniques · Continuously updated</div>
+        <div class="matrix-stat">9 Tactics · 94 Techniques · Continuously updated</div>
         <div class="cta-row reveal">
             <a href="https://tfa.notastandard.org/" class="btn-dark-outline" target="_blank" rel="noopener">
                 View Interactive Matrix
@@ -826,17 +934,6 @@
                 <p>Slide decks, recordings, and materials from conference presentations and training sessions.</p>
                 <div class="resource-items">
                     <span class="resource-item placeholder">Content coming soon</span>
-                </div>
-            </div>
-
-            <div class="resource-category reveal">
-                <div class="resource-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
-                </div>
-                <h3>Podcast</h3>
-                <p>Zero Day Women — stories of women doing unprecedented things in cyber, security, and intelligence. From Dumb Ways To Get Hacked.</p>
-                <div class="resource-items">
-                    <span class="resource-item placeholder">Launching soon — subscribe to get notified</span>
                 </div>
             </div>
 
