@@ -1,8 +1,8 @@
 # security.txt — notastandard.org
 # https://securitytxt.org/ | RFC 9116
 
-Contact: mailto:hello@notastandard.org
+Contact: mailto:security@notastandard.org
 Expires: 2027-03-07T00:00:00.000Z
 Preferred-Languages: en
 Canonical: https://notastandard.org/.well-known/security.txt
-Policy: https://notastandard.org/terms.html
+Policy: https://notastandard.org/security.html
