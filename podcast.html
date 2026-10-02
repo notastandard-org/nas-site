@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Day Women — Not A Standard</title>
+<meta name="description" content="Women doing unprecedented things in cyber, security, and intelligence — and the stories that got them there. A podcast from Dumb Ways To Get Hacked.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=Barlow+Condensed:wght@800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #FAFAF7; --bg-warm: #F4F1EC; --bg-dark: #1A1A18; --bg-dark-warm: #222220; --bg-card: #FFFFFF; --text: #1A1A18; --text-secondary: #6B6963; --text-muted: #A09E97; --text-on-dark: #E8E5DF; --accent: #C1432E; --accent-hover: #A83826; --accent-light: rgba(193, 67, 46, 0.08); --accent-glow: rgba(193, 67, 46, 0.15); --border: #E8E5DF; --border-light: #F0EDE8; --border-dark: rgba(255,255,255,0.08); --serif: 'Instrument Serif', Georgia, serif; --sans: 'Plus Jakarta Sans', -apple-system, sans-serif; --mono: 'IBM Plex Mono', monospace; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--bg-dark); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: white; }
+
+/* ======================== NAV ======================== */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; height: 64px; background: rgba(26, 26, 24, 0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+nav.scrolled { border-bottom-color: var(--border-dark); }
+.nav-logo { text-decoration: none; display: flex; align-items: center; }
+.nav-logo img { height: 32px; width: auto; display: block; filter: brightness(0) invert(1); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.3s ease; position: relative; }
+.nav-links a:hover { color: rgba(255,255,255,0.9); }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: rgba(255,255,255,0.9); font-weight: 500; }
+.nav-links a.active::after { width: 100%; }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.nav-toggle span { display: block; width: 22px; height: 1.5px; background: white; margin: 5px 0; transition: all 0.3s ease; }
+.nav-dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: rgba(34, 34, 32, 0.98); backdrop-filter: blur(20px); border: 1px solid var(--border-dark); min-width: 180px; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-4px); transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 0.5rem 0; }
+.nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown-menu a { display: block; padding: 0.55rem 1.2rem; font-size: 0.78rem; transition: all 0.2s ease; }
+.dropdown-menu a:hover { color: var(--accent); background: rgba(193, 67, 46, 0.1); }
+.dropdown-menu a::after { display: none; }
+
+/* ======================== SLAM HERO ======================== */
+.slam-hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 6rem 3rem; position: relative; overflow: hidden;
+    background: var(--bg-dark);
+}
+.slam-hero::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 600px; height: 600px; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(193, 67, 46, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.slam-word {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    line-height: 0.82; color: var(--text-on-dark); position: relative;
+    opacity: 0; transform: translateY(40px) scale(0.92);
+    display: block;
+}
+.slam-word:nth-child(1) { font-size: clamp(5rem, 14vw, 11rem); animation: slamIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+.slam-word:nth-child(2) { font-size: clamp(5rem, 14vw, 11rem); animation: slamIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+.slam-word:nth-child(3) {
+    font-size: clamp(5rem, 14vw, 11rem); color: var(--accent);
+    animation: slamIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards;
+}
+
+@keyframes slamIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.92); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.slam-subtitle {
+    font-family: var(--sans); font-size: 1.05rem; font-weight: 300;
+    color: rgba(255,255,255,0.45); max-width: 420px; line-height: 1.8;
+    margin-top: 3rem;
+    opacity: 0; animation: fadeUp 0.7s ease 1.5s forwards;
+}
+.slam-from {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 2rem;
+    opacity: 0; animation: fadeUp 0.7s ease 1.7s forwards;
+}
+.slam-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeIn 0.8s ease 2.2s forwards;
+}
+.slam-scroll span {
+    font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.2);
+}
+.slam-scroll-line {
+    width: 1px; height: 32px;
+    background: linear-gradient(to bottom, rgba(193, 67, 46, 0.4), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+/* ======================== SHARED ======================== */
+.container { max-width: 1200px; margin: 0 auto; }
+section { padding: 7rem 3rem; }
+.divider { height: 1px; background: var(--border); margin: 0 3rem; }
+.divider-dark { height: 1px; background: var(--border-dark); margin: 0 3rem; }
+.section-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.section-label::before { content: ''; width: 16px; height: 1px; background: var(--accent); opacity: 0.5; }
+.section-label-dark { color: rgba(255,255,255,0.3); }
+.section-label-dark::before { opacity: 0.8; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+
+/* ======================== THE HOOK — dark ======================== */
+.hook-section { background: var(--bg-dark); color: var(--text-on-dark); padding: 6rem 3rem; }
+.hook-section .container { max-width: 800px; }
+.hook-text { font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.65rem); line-height: 1.65; color: rgba(255,255,255,0.65); font-weight: 400; }
+.hook-text p { margin-bottom: 1.5rem; }
+.hook-text strong { color: rgba(255,255,255,0.92); font-weight: 400; }
+.hook-text .hook-accent { color: var(--accent); }
+.hook-rule { width: 40px; height: 2px; background: var(--accent); margin: 2.5rem 0; }
+
+/* ======================== ABOUT — light ======================== */
+.about-section { background: var(--bg); color: var(--text); }
+.about-show-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 3.5rem; }
+.about-show-left .pull-quote { font-family: var(--serif); font-size: 1.5rem; line-height: 1.5; color: var(--text); font-style: italic; padding-left: 1.5rem; border-left: 3px solid var(--accent); max-width: 500px; }
+.about-show-right p { color: var(--text-secondary); font-size: 0.98rem; font-weight: 300; line-height: 1.85; margin-bottom: 1.5rem; }
+.about-show-right p strong { color: var(--text); font-weight: 500; }
+
+/* ======================== EXPECT — warm ======================== */
+#expect { background: var(--bg-warm); color: var(--text); }
+.expect-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+.expect-card { background: var(--bg-card); padding: 2.5rem; border: 1px solid var(--border-light); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.expect-card::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: var(--accent); transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.expect-card:hover { border-color: var(--border); box-shadow: 0 8px 40px rgba(0,0,0,0.04); transform: translateY(-3px); }
+.expect-card:hover::after { width: 100%; }
+.expect-icon { font-family: var(--mono); font-size: 0.58rem; font-weight: 500; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.expect-card h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.3; color: var(--text); }
+.expect-card p { color: var(--text-secondary); font-size: 0.88rem; font-weight: 300; line-height: 1.75; }
+
+/* ======================== STORIES — dark ======================== */
+.stories-section { padding: 6rem 3rem; background: var(--bg-dark); }
+.stories-section .container { max-width: 800px; }
+.stories-section .section-title { color: var(--text-on-dark); }
+.story-tease { padding: 2rem 0; border-bottom: 1px solid var(--border-dark); transition: all 0.3s ease; }
+.story-tease:first-child { border-top: 1px solid var(--border-dark); }
+.story-tease:hover { padding-left: 0.75rem; }
+.story-tease p { font-family: var(--serif); font-size: 1.15rem; line-height: 1.6; color: rgba(255,255,255,0.45); font-style: italic; transition: color 0.3s ease; }
+.story-tease:hover p { color: rgba(255,255,255,0.8); }
+.story-tease a { color: var(--accent); text-decoration: none; font-weight: 500; font-style: normal; font-family: var(--sans); font-size: 0.9rem; }
+.story-tease a:hover { text-decoration: underline; }
+
+/* ======================== NOTIFY — accent ======================== */
+.notify-section { background: var(--accent); padding: 6rem 3rem; text-align: center; }
+.notify-section .section-label { justify-content: center; color: rgba(255,255,255,0.5); }
+.notify-section .section-label::before { background: white; opacity: 0.4; }
+.notify-section .section-title { color: white; max-width: 600px; margin: 0 auto 1rem; }
+.notify-sub { color: rgba(255,255,255,0.7); font-size: 0.95rem; font-weight: 300; max-width: 460px; margin: 0 auto 2.5rem; line-height: 1.8; }
+.notify-form { display: flex; gap: 0.75rem; max-width: 440px; margin: 0 auto; }
+.notify-form input[type="email"] { flex: 1; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; padding: 0.9rem 1.2rem; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; outline: none; transition: border-color 0.3s ease; }
+.notify-form input[type="email"]::placeholder { color: rgba(255,255,255,0.4); }
+.notify-form input[type="email"]:focus { border-color: white; }
+.notify-form button { font-family: var(--sans); font-size: 0.82rem; font-weight: 600; color: var(--accent); background: white; border: none; padding: 0.9rem 1.8rem; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+.notify-form button:hover { background: var(--text-on-dark); }
+.notify-note { color: rgba(255,255,255,0.4); font-size: 0.72rem; margin-top: 1rem; font-weight: 300; }
+.form-success { display: none; color: white; font-size: 0.95rem; font-weight: 400; margin-top: 1rem; }
+
+/* ======================== CTA ======================== */
+.cta-section { padding: 5rem 3rem; text-align: center; background: var(--bg); }
+.cta-section .section-title { max-width: 600px; margin: 0 auto 1rem; color: var(--text); }
+.cta-section > p, .cta-section p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.8; }
+.cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 500; color: white; background: var(--text); padding: 0.9rem 2rem; text-decoration: none; transition: all 0.3s ease; }
+.btn-primary:hover { background: var(--accent); }
+.btn-outline { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 500; color: var(--text); border: 1px solid var(--border); padding: 0.9rem 2rem; text-decoration: none; transition: all 0.3s ease; background: transparent; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ======================== SAFETY ======================== */
+.safety { padding: 2.5rem 3rem; text-align: center; background: var(--bg-warm); border-top: 1px solid var(--border-light); }
+.safety p { font-size: 0.82rem; color: var(--text-muted); max-width: 550px; margin: 0 auto; line-height: 1.8; }
+.safety a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.safety a:hover { text-decoration: underline; }
+
+/* ======================== FOOTER ======================== */
+footer { padding: 2.5rem 3rem; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+.footer-left { font-size: 0.75rem; color: var(--text-muted); }
+.footer-right { display: flex; gap: 2rem; }
+.footer-right a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+.footer-right a:hover { color: var(--text); }
+
+/* ======================== ANIMATIONS ======================== */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scroll-pulse { 0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }
+
+/* Scroll reveal — starts visible by default, JS adds animation class */
+.reveal { opacity: 1; transform: none; }
+.reveal.animated { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.animated.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+
+/* ======================== RESPONSIVE ======================== */
+@media (max-width: 1024px) {
+    .about-show-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .expect-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(26, 26, 24, 0.98); backdrop-filter: blur(20px); padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border-dark); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .nav-dropdown .dropdown-menu { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; border: none; backdrop-filter: none; padding: 0.3rem 0 0 1rem; min-width: 0; }
+    .dropdown-menu a { padding: 0.35rem 0; font-size: 0.75rem; }
+    section, .slam-hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hook-section, .notify-section, .stories-section, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .slam-word:nth-child(1), .slam-word:nth-child(2), .slam-word:nth-child(3) { font-size: clamp(3.5rem, 18vw, 5.5rem); }
+    .expect-grid { grid-template-columns: 1fr; }
+    .divider, .divider-dark { margin: 0 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .notify-form { flex-direction: column; }
+    .cta-group { flex-direction: column; align-items: center; }
+    .slam-scroll { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+    <a href="index.html" class="nav-logo"><img src="nas-logo.png" alt="Not A Standard" height="28"></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+        <li><a href="index.html#about">Company</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li class="nav-dropdown">
+            <a href="index.html#work">Our Work</a>
+            <div class="dropdown-menu">
+                <a href="engine.html">The Engine</a>
+                <a href="safe.html">SAFE Platform</a>
+                <a href="https://tfa.notastandard.org" target="_blank" rel="noopener">TFA Matrix</a>
+                <a href="podcast.html" class="active">Zero Day Women</a>
+            </div>
+        </li>
+        <li><a href="index.html#resources">Resources</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ======================== SLAM HERO ======================== -->
+<section class="slam-hero">
+    <span class="slam-word">ZERO</span>
+    <span class="slam-word">DAY</span>
+    <span class="slam-word">WOMEN</span>
+    <p class="slam-subtitle">Women doing unprecedented things in cyber, security, and intelligence &mdash; and the stories that got them there.</p>
+    <p class="slam-from">From Dumb Ways To Get Hacked</p>
+    <div class="slam-scroll">
+        <span>Scroll</span>
+        <div class="slam-scroll-line"></div>
+    </div>
+</section>
+
+<!-- ======================== THE HOOK ======================== -->
+<div class="hook-section">
+    <div class="container">
+        <div class="hook-text">
+            <p>In cybersecurity, the most dangerous thing in the world is called a <strong class="hook-accent">zero day</strong>.</p>
+            <p>It's a vulnerability nobody knew existed. There's no patch for it. No defence. No playbook. Nobody saw it coming.</p>
+            <div class="hook-rule"></div>
+            <p>And the thing about a zero day? By the time you realise it's there, it's already <strong>changed everything</strong>.</p>
+            <p>These women are zero days. And these are their stories.</p>
+        </div>
+    </div>
+</div>
+
+<div class="divider-dark"></div>
+
+<!-- ======================== ABOUT THE SHOW ======================== -->
+<section id="about" class="about-section">
+    <div class="container">
+        <div class="section-label">About the show</div>
+        <div class="section-title">This isn't a podcast about women trying<br>to make it in cyber</div>
+        <div class="about-show-grid">
+            <div class="about-show-left">
+                <p class="pull-quote">"These women already made it. They're already in the room. They're already doing the work. We're just finally telling those stories."</p>
+            </div>
+            <div class="about-show-right">
+                <p>No empowerment speeches. No panels about leaning in. No cupcakes.</p>
+                <p>Zero Day Women tells the stories of women who <strong>built the thing, broke the thing, or found what nobody else was looking for</strong> &mdash; in cybersecurity, national security, intelligence, and the spaces in between.</p>
+                <p>Paths nobody had mapped. Backgrounds nobody expected. Work that matters and doesn't get enough airtime.</p>
+                <p>A new show from <strong>Dumb Ways To Get Hacked</strong> &mdash; same family, different side of the story.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== WHAT TO EXPECT ======================== -->
+<section id="expect">
+    <div class="container">
+        <div class="section-label">What to expect</div>
+        <div class="section-title">Real stories, not talking points</div>
+        <div class="expect-grid">
+            <div class="expect-card reveal">
+                <div class="expect-icon">The work</div>
+                <h3>What they actually do</h3>
+                <p>The real technical work &mdash; detection engineering, threat intelligence, incident response, policy, research. Explained properly, not dumbed down.</p>
+            </div>
+            <div class="expect-card reveal reveal-delay-1">
+                <div class="expect-icon">The path</div>
+                <h3>How they got there</h3>
+                <p>Career paths that don't look like the LinkedIn playbook. Art teachers turned IAM leads. DV survivors turned threat intelligence architects. Routes nobody mapped.</p>
+            </div>
+            <div class="expect-card reveal reveal-delay-2">
+                <div class="expect-icon">The insight</div>
+                <h3>What they see that others miss</h3>
+                <p>Perspectives shaped by experience that the standard pipeline doesn't produce. The things you only notice when you've had to look harder than everyone else.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======================== STORY TEASES ======================== -->
+<section class="stories-section">
+    <div class="container">
+        <div class="section-label section-label-dark">Coming up</div>
+        <div class="section-title">Stories we're telling</div>
+        <div class="story-tease">
+            <p>A woman who went from teaching art to managing identity and access for one of the biggest organisations in the country.</p>
+        </div>
+        <div class="story-tease">
+            <p>A woman who took what she learned surviving domestic violence and turned it into a threat intelligence framework used at a national level.</p>
+        </div>
+        <div class="story-tease">
+            <p>More stories to be announced. Know someone we should talk to? <a href="mailto:hello@notastandard.org">Get in touch.</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- ======================== NOTIFY CTA ======================== -->
+<div class="notify-section">
+    <div class="section-label section-label-dark">Be first to know</div>
+    <div class="section-title">Get notified when we launch</div>
+    <p class="notify-sub">We'll email you once &mdash; when the first episode drops. No spam, no newsletter, just the signal.</p>
+    <form class="notify-form" id="notifyForm" action="https://formspree.io/f/xykdndbj" method="POST">
+        <input type="hidden" name="_form_type" value="podcast_notify">
+        <input type="hidden" name="_subject" value="Zero Day Women — launch notification signup">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Notify me</button>
+    </form>
+    <p class="notify-note">We respect your inbox. One email. That's it.</p>
+    <p class="form-success" id="notifySuccess">You're on the list. We'll be in touch when it's time.</p>
+</div>
+
+<!-- ======================== BACK CTA ======================== -->
+<div class="cta-section">
+    <div class="section-title">More from Not A Standard</div>
+    <p>Zero Day Women is part of the Not A Standard ecosystem &mdash; building infrastructure where none existed.</p>
+    <div class="cta-group">
+        <a href="index.html#work" class="btn-primary">See our work &rarr;</a>
+        <a href="index.html#contact" class="btn-outline">Get in touch</a>
+    </div>
+</div>
+
+<!-- ======================== SAFETY ======================== -->
+<div class="safety">
+    <p>If you are in immediate danger, call <strong>000</strong>. For support: <a href="tel:1800737732">1800RESPECT</a> &middot; <a href="tel:131114">Lifeline 13 11 14</a>. Your safety matters &mdash; reach out for help.</p>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+    <div class="footer-left">&copy; 2026 Not A Standard Pty Ltd</div>
+    <div class="footer-right">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/accessibility.html">Accessibility</a>
+        <a href="mailto:hello@notastandard.org">hello@notastandard.org</a>
+        <a href="https://www.linkedin.com/company/not-a-standard-org/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+
+// Scroll reveal — progressive enhancement
+// Elements start visible (no JS = still readable), JS adds animation
+document.querySelectorAll('.reveal').forEach(el => el.classList.add('animated'));
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal.animated').forEach(el => observer.observe(el));
+// Failsafe
+setTimeout(() => { document.querySelectorAll('.reveal.animated:not(.visible)').forEach(el => el.classList.add('visible')); }, 800);
+
+document.getElementById('notifyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const data = new FormData(form);
+    fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+    .then(response => {
+        if (response.ok) {
+            form.style.display = 'none';
+            document.getElementById('notifySuccess').style.display = 'block';
+            document.querySelector('.notify-note').style.display = 'none';
+        }
+    })
+    .catch(() => { form.submit(); });
+});
+</script>
+
+</body>
+</html>
