@@ -1,0 +1,7 @@
+#     (\__/)
+#     (o.o )   no secret squirrel here.
+#    c(")(")   just a regular one. hi.
+#
+
+User-agent: *
+Disallow:
